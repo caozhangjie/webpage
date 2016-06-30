@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, minimal-ui, initial-scale=1.0" />
+<title>曹张杰 - 日记</title> 
+
+<link rel=”stylesheet” type=”text/css” href="style/main.css">
+<script src="http://libs.baidu.com/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var happen = 0;
+    var oldScroll = 0;
+    $(document).ready(function(){
+        var topMain=0;//是头部的高度加头部与nav导航之间的距离。
+        var nav=$(".nav");
+        $(window).scroll(function(){
+
+            if ($(window).scrollTop()>topMain){//如果滚动条顶部的距离大于topMain则就nav导航就添加类.nav_scroll，否则就移除。
+                nav.addClass("nav_scroll");
+                //var insertText = "<table><tr><td>any thing</td></tr></table>";
+                //document.getElementById("insert").innerHTML(insertText);
+            }
+            else
+            {
+                nav.removeClass("nav_scroll");
+            }
+        });
+    });
+</script>
+</head>
+
+<body>
+<header id="mynav" class="navgation">
+  <ul class="nav" style="font-family:Microsoft YaHei">
+    <li><a href="index.html#section1">HOME</a></li>
+    <li><a href="index.html#personal_info">INFO</a></li>
+    <li><a href="index.html#experiments">EXPERIMENTS</a></li>
+    <li><a href="index.html#diaries">DARIES</a></li>
+  </ul>
+</header>
+<article>
+  <section id="diary_machine_learning" class="child4">
+        <div align="center">
+          <img id="intro_to_machine_learning" src="machine_learning.PNG"/>
+        </div>
+        <div align="center">
+          <img id="machine_learning_content" src="machine_learning_content.PNG"/>
+        </div>
+  </section>
+  <section id="diary_data_quality" class="child5">
+         <div align="center">
+          <img id="intro_to_data_quality" src="data_quality.PNG"/>
+        </div>
+        <div align="center">
+          <img id="data_quality_content" src="data_quality_content.PNG"/>
+        </div>
+  </section>
+</article>
+<footer>@Created by Zhangjie Cao</footer>
+</body>
+
+<script>
+var Sticky = function() {
+  var s = [], 
+    support = (function testSupport() {
+    var div = document.createElement("div");
+    var st = ["sticky", "-webkit-sticky"];
+    return st.some(function(x) {
+      div.style.position = x;
+      return div.style.position === x;
+    });
+  }());
+  function Sticky(o) {
+    var self = this;
+    s.push(self);
+    self[0] = o;
+    var placeholder = document.createElement("div");
+    self.placeholder = placeholder;
+    placeholder.classList.add("placeholder");
+    self.fixed = false;
+    self.posit = posit;
+    function posit() {
+      var rect;
+      if (self.fixed) {
+        rect = placeholder.getBoundingClientRect();
+        self.staticTop = rect.top + window.pageYOffset;
+      } else {
+        rect = o.getBoundingClientRect();
+        self.staticTop = rect.top + window.pageYOffset;
+      }
+    }
+    posit();
+  }
+  Sticky.prototype.stick = function() {
+    if (support)
+      return;
+    var o = this[0], 
+      top = this.staticTop;
+    var placeholder = this.placeholder, fixed = this.fixed;
+    console.log(top);
+    if (top > window.pageYOffset && fixed) {
+      o.classList.remove("sticky");
+      placeholder.parentNode.removeChild(placeholder);
+      fixed = false;
+    } else if (top <= window.pageYOffset && !fixed) {
+      o.classList.add("sticky");
+      o.parentNode.insertBefore(placeholder, o);
+      fixed = true;
+    }
+    this.fixed = fixed;
+  };
+  if (!support) {
+    window.addEventListener("scroll", function() {
+      s.forEach(function(x) { x.stick(); });
+    });
+    window.addEventListener("resize", function() {
+      s.forEach(function(x) { x.posit(); });
+      s.forEach(function(x) { x.stick(); });
+    });
+  } else {
+    console.log("support");
+  }
+  return Sticky;
+}();
+document.addEventListener("DOMContentLoaded", function() {
+  var s = Array.prototype.map.call(document.querySelectorAll('section'), function(x) { return new Sticky(x); });
+});
+</script>   
